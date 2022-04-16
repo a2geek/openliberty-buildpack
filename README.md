@@ -2,7 +2,7 @@
 
 Experimental Cloud Foundry for Open Liberty.
 
-## NOTE
+# NOTE
 
 The normal Java buildpack can be used in Cloud Foundry to deploy Open Liberty.
 
@@ -16,6 +16,16 @@ applications:
   - java_buildpack
   command: JAVA_HOME=~/.java-buildpack/open_jdk_jre PATH=$PATH:$JAVA_HOME/bin:~/wlp/bin server run
 ```
+
+When using Maven, for a single project (not a multi-project, so EAR projects cannot do this) the following command sequence will build the Zip file for deployment:
+
+```
+$ mvn clean package liberty:create liberty:install-feature liberty:deploy liberty:package -Dinclude=minify
+```
+
+For multi-projects, it appears that the Open Liberty command-line (`server`) tools need to be employed.
+
+# Using the Buildpack
 
 ## Building the Buildpack
 
