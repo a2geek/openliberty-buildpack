@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+build_dir="$1"
+
+if [ -f "${build_dir}/config/server.xml" ]
+then
+    echo "Open Liberty"
+    exit 0
+else
+    exit 1
+fi

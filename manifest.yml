@@ -1,0 +1,26 @@
+---
+language: openliberty
+default_versions:
+- name: openliberty
+  version: 22.0.0.4
+- name: java
+  version: 1.8.0
+dependencies:
+- name: openliberty
+  version: 22.0.0.4
+  uri: https://public.dhe.ibm.com/ibmdl/export/pub/software/openliberty/runtime/release/22.0.0.4/openliberty-22.0.0.4.zip
+  sha256: 984a6e4d500d492f5f993142399b06efc5ab4940d93c7902ed3667f1393a4ef0
+  cf_stacks:
+  - cflinuxfs3
+- name: java
+  version: 1.8.0
+  uri: https://github.com/adoptium/temurin8-binaries/releases/download/jdk8u322-b06/OpenJDK8U-jre_x64_linux_hotspot_8u322b06.tar.gz
+  sha256: 9c4607cee01919a21c57a36e8c009a7aca7aefd63010c64d7a3023fe8590ebe1
+  cf_stacks:
+  - cflinuxfs3
+include_files:
+- bin/detect
+- bin/finalize
+- bin/release
+- config/server.xml
+- manifest.yml

@@ -1,0 +1,4 @@
+<server>
+    <include location="app-server.xml" />
+    <httpEndpoint id="defaultHttpEndpoint" host="*" httpPort="${PORT}" httpsPort="-1" />
+</server>

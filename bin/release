@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+cat <<"EOF"
+default_process_types:
+  web: PATH=$PATH:~/.buildpack/java/bin:~/wlp/bin JAVA_HOME=~/.buildpack/java server run -- default.http.port=$PORT
+EOF

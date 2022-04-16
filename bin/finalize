@@ -1,0 +1,46 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+build_dir="$1"
+cache_dir="$2"
+deps_dir="$3"
+index="$4"
+
+bp_dir="$(dirname $0)/.."
+
+openliberty_dir="$(mktemp -d)"
+work_dir="$(mktemp -d)"
+
+echo "Preserving application code"
+mv ${build_dir}/* ${work_dir}
+
+echo "Extracting Open Liberty ..."
+unzip -q -d ${openliberty_dir} ${bp_dir}/dependencies/*/openliberty*.zip
+
+echo "Installing Java ..."
+mkdir -p ${build_dir}/.buildpack/java
+tar -C ${build_dir}/.buildpack/java -xzf ${bp_dir}/dependencies/*/OpenJDK*.tar.gz --strip-components=1
+
+PATH=$PATH:${build_dir}/.buildpack/java/bin:${openliberty_dir}/wlp/bin
+JAVA_HOME=${build_dir}/.buildpack/java
+
+server create defaultServer
+
+server_dir="${openliberty_dir}/wlp/usr/servers/defaultServer"
+cp ${work_dir}/config/server.xml ${server_dir}/app-server.xml
+cp ${bp_dir}/config/server.xml ${server_dir}/server.xml
+
+for app_dir in ${work_dir}/apps/*
+do
+    app=$(basename ${app_dir})
+    echo "Installing ${app} ..."
+    mkdir ${server_dir}/apps/${app}
+    unzip -q -d ${server_dir}/apps/${app} ${app_dir}
+done
+
+echo "Packaging Application + Open Liberty ..."
+server package defaultServer --include=minify
+
+echo "Installing Application!"
+unzip -q -d ${build_dir} ${server_dir}/defaultServer.zip
