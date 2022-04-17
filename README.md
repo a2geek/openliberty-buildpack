@@ -95,7 +95,7 @@ start command:   JAVA_HOME=~/.java-buildpack/open_jdk_jre PATH=$PATH:$JAVA_HOME/
 
 ## Building the Buildpack
 
-> Note: the buildpack currently only works as a static buildpack.
+> Note: the buildpack currently only works as a static buildpack (that is, it does not download resources from the internet dynamically).
 
 ```
 $ buildpack-packager build -cached -any-stack
